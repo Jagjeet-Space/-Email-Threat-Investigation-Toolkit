@@ -1,4 +1,4 @@
-# 🔍 Email Threat Investigation Toolkit
+# Email Threat Investigation Toolkit
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub stars](https://img.shields.io/github/stars/yourusername/email-threat-investigation-toolkit.svg)](https://github.com/yourusername/email-threat-investigation-toolkit/stargazers)
@@ -6,11 +6,11 @@
 
 > **A comprehensive SOC Level 1 analyst toolkit for investigating email-based threats including phishing, spoofing, and credential harvesting attacks.**
 
-## 🎯 Project Overview
+## Project Overview
 
 This repository demonstrates real-world email threat investigation capabilities by simulating the analysis of suspicious emails that would typically be handled by SOC Level 1 analysts. The project showcases technical skills in email forensics, threat detection, and incident response procedures.
 
-### 🚀 Key Features
+### Key Features
 
 - **📧 Real-world Email Samples**: 2 phishing emails + 1 legitimate email for comparison
 - **🔎 Deep Technical Analysis**: Header inspection, SPF/DKIM/DMARC validation, IOC extraction
@@ -18,68 +18,68 @@ This repository demonstrates real-world email threat investigation capabilities 
 - **🛠️ Automation Tools**: Python scripts for email parsing and IOC extraction
 - **📚 Learning Resources**: Cheat sheets and investigation guides
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 Email-Threat-Investigation-Toolkit/
 │
-├── 📧 Samples/                    # Email samples for analysis
+├── Samples/                    # Email samples for analysis
 │   ├── Phishing/                  # Malicious email samples
 │   └── Safe/                      # Legitimate email samples
 │
-├── 📋 Analysis/                   # Detailed investigation reports
+├── Analysis/                   # Detailed investigation reports
 │   ├── Phishing_Sample_01/
 │   ├── Phishing_Sample_02/
 │   └── Legitimate_Email_01/
 │
-├── 🚨 IOCs/                       # Indicators of Compromise
+├── IOCs/                       # Indicators of Compromise
 │   ├── extracted_iocs.csv
 │   ├── malicious_domains.txt
 │   ├── suspicious_ips.txt
 │   └── malicious_urls.txt
 │
-├── 🛠️ Tools/                      # Analysis automation scripts
+├──  Tools/                      # Analysis automation scripts
 │   ├── email_analyzer.py
 │   ├── ioc_extractor.py
 │   └── header_parser.py
 │
-├── 📚 Documentation/              # Reference guides and cheat sheets
+├── Documentation/              # Reference guides and cheat sheets
 │   ├── email_header_cheatsheet.md
 │   ├── soc_investigation_guide.md
 │   └── tools_commands_reference.md
 │
-└── 📊 Results/                    # Investigation findings
+└── Results/                    # Investigation findings
     ├── spf_dkim_dmarc_results.md
     ├── investigation_timeline.md
     └── final_report.md
 ```
 
-## 🎯 Investigation Methodology
+## Investigation Methodology
 
 This project follows a structured SOC analyst approach:
 
-### 1️⃣ **Initial Assessment**
+### **Initial Assessment** - 1st Step
 - Email content review
 - Sender reputation check
 - Urgency and social engineering indicators
 
-### 2️⃣ **Technical Analysis**
+### **Technical Analysis** - 2nd Step
 - **Header Inspection**: Received paths, authentication results
 - **SPF Validation**: Sender Policy Framework compliance
 - **DKIM Analysis**: DomainKeys Identified Mail signature verification
 - **DMARC Evaluation**: Domain-based Message Authentication compliance
 
-### 3️⃣ **Threat Intelligence**
+###  **Threat Intelligence** - 3rd Step
 - IOC extraction (IPs, domains, URLs, hashes)
 - Threat actor pattern identification
 - Campaign correlation analysis
 
-### 4️⃣ **Documentation & Reporting**
+###  **Documentation & Reporting** - 4th Step
 - Detailed technical findings
 - Risk assessment and recommendations
 - Executive summary for stakeholders
 
-## 🔧 Tools & Technologies Used
+## Tools & Technologies Used
 
 ### Core Analysis Tools
 - **Email Clients**: Thunderbird, Outlook for .eml/.msg analysis
@@ -96,18 +96,18 @@ This project follows a structured SOC analyst approach:
 - **Git**: Version control and project management
 - **GitHub**: Portfolio hosting and collaboration
 
-## 📈 Learning Outcomes
+## Learning Outcomesrd
 
 After completing this project, you will demonstrate proficiency in:
 
-✅ **Email Forensics**: Header analysis, authentication mechanism understanding  
-✅ **Threat Detection**: Identifying phishing indicators and attack patterns  
-✅ **IOC Management**: Extracting and cataloging indicators of compromise  
-✅ **Technical Documentation**: Creating professional SOC reports  
-✅ **Automation**: Building tools to streamline investigation processes  
-✅ **Risk Assessment**: Evaluating and communicating threat levels  
+- **Email Forensics**: Header analysis, authentication mechanism understanding  
+- **Threat Detection**: Identifying phishing indicators and attack patterns  
+- **IOC Management**: Extracting and cataloging indicators of compromise  
+- **Technical Documentation**: Creating professional SOC reports  
+- **Automation**: Building tools to streamline investigation processes  
+- **Risk Assessment**: Evaluating and communicating threat levels  
 
-## 🚀 Quick Start Guide
+## Quick Start Guide
 
 ### Prerequisites
 ```bash
@@ -130,7 +130,7 @@ python Tools/ioc_extractor.py Samples/Phishing/
 python Tools/header_parser.py Samples/Phishing/phishing_sample_01.eml
 ```
 
-## 📊 Sample Investigation Results
+## Sample Investigation Results
 
 | Email Sample       | Threat Level | SPF    | DKIM      | DMARC  | IOCs Found |
 | ------------------ | ------------ | ------ | --------- | ------ | ---------- |
@@ -138,7 +138,7 @@ python Tools/header_parser.py Samples/Phishing/phishing_sample_01.eml
 | Phishing Sample 02 | **HIGH**     | ❌ FAIL | ❌ NEUTRAL | ❌ FAIL | 12         |
 | Legitimate Email   | **LOW**      | ✅ PASS | ✅ PASS    | ✅ PASS | 0          |
 
-## 🎓 For Recruiters & Hiring Managers
+## For Recruiters & Hiring Managers
 
 This project demonstrates:
 
@@ -148,7 +148,7 @@ This project demonstrates:
 - **Automation Mindset**: Tool development for efficiency and accuracy
 - **Cybersecurity Awareness**: Understanding of current threat landscape
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
 
@@ -158,15 +158,15 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## ⚠️ Disclaimer
+##  Disclaimer
 
 **Important**: All email samples in this repository are sanitized and use dummy data for educational purposes only. No actual malicious links or payloads are included. This project is intended for cybersecurity education and portfolio demonstration.
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🔗 Connect With Me
+## Connect With Me
 
 - **LinkedIn**: [Your LinkedIn Profile](https://linkedin.com/in/yourprofile)
 - **Email**: your.email@example.com
