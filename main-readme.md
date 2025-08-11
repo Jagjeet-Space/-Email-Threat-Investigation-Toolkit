@@ -12,11 +12,11 @@ This repository demonstrates real-world email threat investigation capabilities 
 
 ### Key Features
 
-- **📧 Real-world Email Samples**: 2 phishing emails + 1 legitimate email for comparison
-- **🔎 Deep Technical Analysis**: Header inspection, SPF/DKIM/DMARC validation, IOC extraction
-- **📊 Professional Documentation**: Detailed analysis reports following SOC procedures
-- **🛠️ Automation Tools**: Python scripts for email parsing and IOC extraction
-- **📚 Learning Resources**: Cheat sheets and investigation guides
+- **Real-world Email Samples**: 2 phishing emails + 1 legitimate email for comparison
+- **Deep Technical Analysis**: Header inspection, SPF/DKIM/DMARC validation, IOC extraction
+- **Professional Documentation**: Detailed analysis reports following SOC procedures
+- **🛠Automation Tools**: Python scripts for email parsing and IOC extraction
+- **Learning Resources**: Cheat sheets and investigation guides
 
 ## Repository Structure
 
