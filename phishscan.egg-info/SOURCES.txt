@@ -1,0 +1,14 @@
+LICENSE
+README.md
+pyproject.toml
+setup.py
+phishscan/__init__.py
+phishscan/phishscan.py
+phishscan.egg-info/PKG-INFO
+phishscan.egg-info/SOURCES.txt
+phishscan.egg-info/dependency_links.txt
+phishscan.egg-info/entry_points.txt
+phishscan.egg-info/requires.txt
+phishscan.egg-info/top_level.txt
+phishscan/utils/__init__.py
+phishscan/utils/analyze_headers.py

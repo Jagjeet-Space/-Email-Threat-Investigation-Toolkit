@@ -1,0 +1,40 @@
+Metadata-Version: 2.4
+Name: phishscan
+Version: 0.1.0
+Summary: A professional CLI tool to analyze email headers and body for phishing indicators.
+Home-page: https://github.com/Jagjeet-Space/-Email-Threat-Investigation-Toolkit/tree/Phishscan/Phishscan
+Author: Jagjeet
+Author-email: jagjeetspace@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Environment :: Console
+Classifier: Topic :: Security
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pyfiglet
+Requires-Dist: termcolor
+Requires-Dist: dnspython
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# PhishScan
+
+A professional CLI tool to analyze email headers and body for phishing indicators.
+
+## Installation
+
+`pip install phishscan`
+
+## Usage
+
+`phishscan -f <path_to_email.eml>`
