@@ -13,6 +13,7 @@ setup(
     install_requires=[
         'pyfiglet',
         'termcolor',
+        'dnspython',
     ],
     entry_points={
         'console_scripts': [
@@ -27,4 +28,5 @@ setup(
         'Topic :: Security',
     ],
     python_requires='>=3.6',
+
 )
