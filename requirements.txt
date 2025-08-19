@@ -1,3 +1,13 @@
-pyfiglet
-termcolor
-dnspython
+'pyfiglet'
+'termcolor'
+'dnspython'
+'pyfiglet',
+'termcolor',
+'dnspython',
+'tldextract',
+'python-magic',
+'PyPDF2',
+'python-docx',
+'openpyxl',
+'dkim'
+'dns.resolver'

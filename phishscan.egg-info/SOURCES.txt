@@ -12,3 +12,5 @@ phishscan.egg-info/requires.txt
 phishscan.egg-info/top_level.txt
 phishscan/utils/__init__.py
 phishscan/utils/analyze_headers.py
+phishscan/utils/attachment_analyzer.py
+phishscan/utils/ioc_extractor.py

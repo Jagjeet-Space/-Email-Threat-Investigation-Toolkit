@@ -3,7 +3,7 @@ import sys
 import os
 import pyfiglet
 from termcolor import colored
-from .utils import analyze_headers # <-- Import your module
+from .utils.analyze_headers import analyze_headers # <-- Import your module
 
 # --- Removed dummy functions: they are now in header_parser.py ---
 # We will add similar imports for url_analyzer and attachment_scanner later.
@@ -44,7 +44,7 @@ def main():
     
     # Call your REAL header analysis function
     print(colored("\n[+] Analyzing email headers...", "yellow"))
-    headers = header_parser.analyze_headers(args.file)
+    headers = analyze_headers(args.file)
     
     # --- Dummy functions for the rest of the analysis (to be replaced later) ---
     urls, iocs = (["https://malicious-site.com/login", "https://safe-site.com/resource"], 
