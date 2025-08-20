@@ -1,6 +1,6 @@
 setup.py is the one who helps in installing Phishscan CLI tool its important to know how things works in setup.py that it lead to installation of Phishscan.
 
-Lets analyze and understand python code of setup.py what every fuction do in it
+Lets analyze and understand 1st Phase of setup.py and know what every fuction do in it.
 
 ```python
 
@@ -53,3 +53,83 @@ setup(
     url='https://github.com/Jagjeet-Space/-Email-Threat-Investigation-Toolkit/tree/Phishscan/Phishscan',
 ```
 - url: User can click to see source code, issues, or contribute.
+
+
+## Phase 2  
+
+```python
+    packages=find_packages(),
+    install_requires=[
+        'pyfiglet',
+        'termcolor',
+        'dnspython',
+    ],
+    entry_points={
+        'console_scripts': [
+            'phishscan = phishscan.phishscan:main',
+        ],
+    },
+    classifiers=[
+        'Programming Language :: Python :: 3',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent',
+        'Environment :: Console',
+        'Topic :: Security',
+    ],
+    python_requires='>=3.6',
+```
+
+1st line from 2nd Phase 
+
+```python
+       packages=find_packages(),
+```
+- Uses *find_packages()* to automatically find all Python packages in the project.
+- __init__.py helps *find_packages() function to automatically find packages in direcotry.
+
+```python
+       install_requires=[
+        'pyfiglet',
+        'termcolor',
+        'dnspython',
+    ],
+```
+- *install_requires*: List of dependecies that pip will install automatically.
+
+```python
+         entry_points={
+        'console_scripts': [
+            'phishscan = phishscan.phishscan:main',
+        ],
+    },
+
+```
+- *entry_points: Defines CLI commands for our tool.
+  -  *entry_points* is a special setuptools parameter that tells Python to create executable commands when the package is installed.
+  -  It’s what allows your Python script to be run directly from the terminal like any other command, without needing to type python phishscan/phishscan.py.
+- 'phishscan = phishscan.phishscan:main' This is slpit in two parts mean:
+  1. 1st phishscan mean- This is the command users will type in the terminal after installation.
+  2. 2nd phishscan aftet dot means- Pyhton module path: the phishscan.py file inside the phishscan package.
+    - :main- The function to call when this command is executed.
+    - Executes the main() function inside phishscan/phishscan.py.
+ 
+```python
+           classifiers=[
+        'Programming Language :: Python :: 3',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent',
+        'Environment :: Console',
+        'Topic :: Security',
+    ],
+```
+-classifiers: Metadata about our package. Helps people and tool search for it.
+-
+
+```python
+          python_requires='>=3.6',
+)
+```
+- python_requires: Minimum Python version required to run the package.
+
+So this is the end of our setup.py explanation.
+
