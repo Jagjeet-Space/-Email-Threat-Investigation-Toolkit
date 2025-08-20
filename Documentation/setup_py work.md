@@ -17,3 +17,8 @@ setup(
     url='https://github.com/Jagjeet-Space/-Email-Threat-Investigation-Toolkit/tree/Phishscan/Phishscan',  # Replace with your GitHub URL
 ```
 
+1st line of our scripts uses *`from setuptools import setup, find_packages`*
+
+- Purpose: Imports setup() and find_packages() from setuptools.
+- setup() is the main function that tells Python how to install your package.
+- find_packages() automatically discovers all Python packages our your project directory.
