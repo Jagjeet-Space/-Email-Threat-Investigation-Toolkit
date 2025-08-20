@@ -7,6 +7,9 @@ phishscan -f sample.eml
 ```
 **Note:** When you run `pip install .` make sure your in same directory as setup.py scipt in.
 
+
+
+
 We will analyze setup.py in two phases: first, the metadata and basic info; second, the dependencies, CLI setup, and compatibility.
 
 Lets analyze and understand 1st Phase of setup.py and know what every fuction do in it.
