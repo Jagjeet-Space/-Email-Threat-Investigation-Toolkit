@@ -147,7 +147,7 @@ setup(
 )
 ```
 - python_requires: Minimum Python version required to run the package.
-```
+```scss
   setup.py
    ├─ Metadata (Phase 1)
    ├─ Dependencies (Phase 2)
