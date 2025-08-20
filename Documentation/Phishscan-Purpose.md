@@ -16,8 +16,7 @@ Next script is `setup.py` these script helps in installing our Phishscan tool. W
 # Module Flow
 
 Think of PhiScan like a pipeline:
-```mermaid
-
+```
 [Email File (.eml)]
        |
        v
