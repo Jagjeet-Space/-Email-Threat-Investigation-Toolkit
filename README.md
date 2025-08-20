@@ -1,7 +1,10 @@
 # PhishScan
 
 A professional CLI tool to analyze email headers,body and attachments for catching phishing indicators.
+
 Below is chart that how Phishscan work.
+
+
 
                 +---------------------+
                 |  Input: .eml Email  |
@@ -38,12 +41,16 @@ Below is chart that how Phishscan work.
                  |  - Saved Attachments|
                  +--------------------+
 
+
+                 
+
 | Module                  | Inputs                         | Outputs                           | Connected To            |
 | ----------------------- | ------------------------------ | --------------------------------- | ----------------------- |
 | **Header Analyzer**     | `.eml` email file              | Verdict, Key headers, Auth status | IOC Extractor, Reports  |
 | **IOC Extractor**       | Key headers, body, attachments | IPs, URLs, Domains, Threat links  | Reports                 |
 | **Attachment Analyzer** | `.eml` email file              | Attachment info, hashes, flags    | Reports                 |
 | **Reports / Output**    | Data from all modules          | JSON, console output, saved files | End user / SOC analysts |
+
 
 
 
