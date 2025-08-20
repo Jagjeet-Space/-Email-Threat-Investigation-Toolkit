@@ -124,7 +124,7 @@ setup(
         'Topic :: Security',
     ],
 ```
-*classifiers:* Metadata about our package. Helps people and tool search for it.
+- *classifiers:* Metadata about our package. Helps people and tool search for it.
 
 ```python
           python_requires='>=3.6',
