@@ -2,6 +2,8 @@ setup.py is the one who helps in installing Phishscan CLI tool its important to 
 
 Lets analyze and understand 1st Phase of setup.py and know what every fuction do in it.
 
+## Phase 1
+
 ```python
 
   from setuptools import setup, find_packages
@@ -85,7 +87,7 @@ setup(
        packages=find_packages(),
 ```
 - Uses *find_packages()* to automatically find all Python packages in the project.
-- __init__.py helps *find_packages() function to automatically find packages in direcotry.
+- __init__.py helps *find_packages()* function to automatically find packages in direcotry.
 
 ```python
        install_requires=[
@@ -104,10 +106,10 @@ setup(
     },
 
 ```
-- *entry_points: Defines CLI commands for our tool.
+- *entry_points:* Defines CLI commands for our tool.
   -  *entry_points* is a special setuptools parameter that tells Python to create executable commands when the package is installed.
   -  It’s what allows your Python script to be run directly from the terminal like any other command, without needing to type python phishscan/phishscan.py.
-- 'phishscan = phishscan.phishscan:main' This is slpit in two parts mean:
+- `phishscan = phishscan.phishscan:main` This is slpit in two parts mean:
   1. 1st phishscan mean- This is the command users will type in the terminal after installation.
   2. 2nd phishscan aftet dot means- Pyhton module path: the phishscan.py file inside the phishscan package.
     - :main- The function to call when this command is executed.
@@ -122,8 +124,7 @@ setup(
         'Topic :: Security',
     ],
 ```
--classifiers: Metadata about our package. Helps people and tool search for it.
--
+*classifiers:* Metadata about our package. Helps people and tool search for it.
 
 ```python
           python_requires='>=3.6',
