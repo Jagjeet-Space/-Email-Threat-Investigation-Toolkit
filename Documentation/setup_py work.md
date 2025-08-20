@@ -1,4 +1,13 @@
-setup.py is the one who helps in installing Phishscan CLI tool its important to know how things works in setup.py that it lead to installation of Phishscan.
+setup.py is the one who helps in installing Phishscan CLI tool it is important to know how things works in setup.py that it lead to installation of Phishscan.
+
+For installation of Phishscan user have to write these cmd.
+``` bash
+pip install .
+phishscan -f sample.eml
+```
+**Note:** When you run `pip install .` make sure your in same directory as setup.py scipt in.
+
+We will analyze setup.py in two phases: first, the metadata and basic info; second, the dependencies, CLI setup, and compatibility.
 
 Lets analyze and understand 1st Phase of setup.py and know what every fuction do in it.
 
@@ -48,6 +57,7 @@ setup(
 - *long_description:* Reads the full README.md as a detailed description of the package
 - *long_description_content_type:* Tells setuptools that the README is in Markdown format.
 - This ensures your docs look correct on PyPI listing.
+- **Note:** Remember if README.md doesn’t exist, this will fail. Always ensure the file is in the same directory as setup.py.
 
 ```python
     author='Jagjeet',
@@ -97,6 +107,7 @@ setup(
     ],
 ```
 - *install_requires*: List of dependecies that pip will install automatically.
+- When users run ```bash pip install phishscan```, these dependencies will automatically be installed
 
 ```python
          entry_points={
@@ -115,6 +126,8 @@ setup(
     - :main- The function to call when this command is executed.
     - Executes the main() function inside phishscan/phishscan.py.
  
+- This is what turns our Python package into a real command-line tool that behaves like any other Linux or Windows executable.
+ 
 ```python
            classifiers=[
         'Programming Language :: Python :: 3',
@@ -131,6 +144,13 @@ setup(
 )
 ```
 - python_requires: Minimum Python version required to run the package.
+```
+  setup.py
+   ├─ Metadata (Phase 1)
+   ├─ Dependencies (Phase 2)
+   ├─ CLI creation (entry_points)
+   └─ Installation flow via pip
+```
 
 So this is the end of our setup.py explanation.
 
