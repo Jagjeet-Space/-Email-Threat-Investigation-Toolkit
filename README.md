@@ -2,6 +2,7 @@
 
 A professional CLI tool to analyze email headers,body and attachments for catching phishing indicators.
 Below is chart that how Phishscan work.
+```mermaid
                 +---------------------+
                 |  Input: .eml Email  |
                 +---------------------+
