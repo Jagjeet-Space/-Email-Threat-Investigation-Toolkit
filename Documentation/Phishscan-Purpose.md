@@ -8,14 +8,14 @@ What Phishscan do is take .eml file and analyze in three different first and pri
 
 `attachment_analyzer` to detect malicious files, compute hashes, and check suspicious traits  
 
-We will discuss these scripts in details later. Now when we have these three scripts we will pipe those modules into one script that will run our Phishscan. These three files scripts will use by `phishscan.py` script that will use three modules of these scripts with that script phishcan can use those scripts however we want it if we want to output just attachment related IOC then we can use attachment option with Phischan CLI to filter out only attachment analysis vice versa with others script. We can also make Phishscan to put our all output in formatted json file.
+We will discuss these scripts in details later. Now when we have these three scripts we will pipe those modules into one script that will run our Phishscan. These three files scripts will use by `phishscan.py` script that will use three modules of these scripts with that script Phishcan can use those scripts however we want it if we want to output just attachment related IOC then we can use attachment option with Phischan CLI to filter out only attachment analysis vice versa with others script. We can also make Phishscan to put our all output in formatted json file.
 
-Next script is `setup.py` these script helps in installing our Phishscan tool. We have to uae `pip install .` CLI to install Phischan but when you use Phishtool keep in mind that setup.py should be in same directory. After running pip install you also have to download dependencies to run Phishscan for that their is `requirements.txt` file to install all the dependencies we needed.
+Next script is `setup.py` these script helps in installing our Phishscan tool. We have to uae `pip install .` CLI to install Phischan but when you use *pip instll* keep in mind that setup.py should be in same directory. After running pip install you also have to download dependencies to run Phishscan for that their is `requirements.txt` file to install all the dependencies we needed.
 
 
 # Module Flow
 
-Think of PhiScan like a pipeline:
+Think of Phishscan like a pipeline:
 ```
 [Email File (.eml)]
        |
