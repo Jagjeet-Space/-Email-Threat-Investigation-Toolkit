@@ -6,20 +6,16 @@ import os
 from typing import Dict, Set, Any, Tuple, Optional
 
 # Email parsing
+import email
 from email import policy
 from email.parser import BytesParser
 
 # Optional colorized output
 try:
-    from termcolor import colored as _colored
+    from termcolor import colored
 except Exception:
-    def _colored(text, color=None):
+    def colored(text, color=None):
         return text
-
-def make_colorer(disable: bool = False):
-    if disable:
-        return lambda text, color=None: text
-    return _colored
 
 # Optional libs (graceful fallbacks)
 # tldextract
@@ -78,14 +74,12 @@ def find_iocs(text: str) -> Dict[str, Set[str]]:
     domain_candidates = re.findall(broad_domain_pattern, text or "")
     if tldextract is not None:
         for candidate in domain_candidates:
-            try:
-                ext = tldextract.extract(candidate)
-                if ext.domain and ext.suffix:
-                    full_domain = f"{ext.domain}.{ext.suffix}".lower()
-                    iocs["domains"].add(full_domain)
-            except Exception:
-                iocs["domains"].add(candidate.lower())
+            ext = tldextract.extract(candidate)
+            if ext.domain and ext.suffix:
+                full_domain = f"{ext.domain}.{ext.suffix}"
+                iocs["domains"].add(full_domain)
     else:
+        # Fallback: trust candidates as-is if tldextract missing
         for candidate in domain_candidates:
             iocs["domains"].add(candidate.lower())
 
@@ -100,7 +94,7 @@ def _detect_mime(file_path: str) -> Optional[str]:
     if magic is None:
         # Fallback to naive guess by extension when libmagic is not available
         ext = os.path.splitext(file_path)[1].lower()
-        if ext in {".txt", ".log", ".csv", ".md", ".eml"}:
+        if ext in {".txt", ".log", ".csv", ".md"}:
             return "text/plain"
         if ext == ".pdf":
             return "application/pdf"
@@ -115,15 +109,14 @@ def _detect_mime(file_path: str) -> Optional[str]:
         return None
 
 
-def parse_file_content(file_path: str, quiet: bool = False) -> str:
+def parse_file_content(file_path: str) -> str:
     """
     Parses a file for text content based on its type.
     Supports text, PDF, DOCX, XLSX with graceful degradation if libs are missing.
     """
     try:
         mime_type = _detect_mime(file_path) or "application/octet-stream"
-        if not quiet:
-            print(f"[*] Detected file type: {mime_type}", file=sys.stderr)
+        print(f"[*] Detected file type: {mime_type}", file=sys.stderr)
 
         # Plain text
         if mime_type.startswith("text/"):
@@ -133,21 +126,20 @@ def parse_file_content(file_path: str, quiet: bool = False) -> str:
         # PDF
         if "application/pdf" in mime_type:
             if PdfReader is None:
-                if not quiet:
-                    print("[!] PyPDF2 not available; skipping PDF text extraction", file=sys.stderr)
+                print("[!] PyPDF2 not available; skipping PDF text extraction", file=sys.stderr)
                 return ""
             content = ""
             with open(file_path, "rb") as f:
                 reader = PdfReader(f)
                 for page in reader.pages:
-                    content += (page.extract_text() or "")
+                    # PdfReader.extract_text() in recent versions is page.extract_text()
+                    content += page.extract_text() or ""
             return content
 
         # Word (docx)
         if "application/vnd.openxmlformats-officedocument.wordprocessingml.document" in mime_type:
             if docx is None:
-                if not quiet:
-                    print("[!] python-docx not available; skipping DOCX text extraction", file=sys.stderr)
+                print("[!] python-docx not available; skipping DOCX text extraction", file=sys.stderr)
                 return ""
             d = docx.Document(file_path)
             return " ".join([para.text for para in d.paragraphs])
@@ -155,8 +147,7 @@ def parse_file_content(file_path: str, quiet: bool = False) -> str:
         # Excel (xlsx)
         if "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" in mime_type:
             if openpyxl is None:
-                if not quiet:
-                    print("[!] openpyxl not available; skipping XLSX text extraction", file=sys.stderr)
+                print("[!] openpyxl not available; skipping XLSX text extraction", file=sys.stderr)
                 return ""
             wb = openpyxl.load_workbook(file_path, data_only=True)
             content = ""
@@ -171,8 +162,7 @@ def parse_file_content(file_path: str, quiet: bool = False) -> str:
         return ""
 
     except Exception as e:
-        if not quiet:
-            print(f"[!] Error parsing file {file_path}: {e}", file=sys.stderr)
+        print(f"[!] Error parsing file {file_path}: {e}", file=sys.stderr)
         return ""
 
 
@@ -190,7 +180,7 @@ def _email_meta(msg) -> Dict[str, Any]:
     }
 
 
-def get_iocs_from_file_or_content(input_data, is_file_path=True, quiet: bool = False) -> Tuple[Dict[str, Any], Optional[Dict[str, Any]]]:
+def get_iocs_from_file_or_content(input_data, is_file_path=True) -> Tuple[Dict[str, Any], Optional[Dict[str, Any]]]:
     """
     Primary function to get IOCs from a file path or raw content,
     with header analysis and expanded file support.
@@ -207,8 +197,7 @@ def get_iocs_from_file_or_content(input_data, is_file_path=True, quiet: bool = F
 
     # Email file path flow
     if is_file_path and os.path.exists(input_data) and (input_data.lower().endswith(".eml") or input_data.lower().endswith(".msg")):
-        if not quiet:
-            print(f"[*] Processing email file: {input_data}", file=sys.stderr)
+        print(f"[*] Processing email file: {input_data}", file=sys.stderr)
         with open(input_data, "rb") as fp:
             msg = BytesParser(policy=policy.default).parse(fp)
 
@@ -231,6 +220,7 @@ def get_iocs_from_file_or_content(input_data, is_file_path=True, quiet: bool = F
                     try:
                         email_body_text += part.get_content() or ""
                     except Exception:
+                        # Some odd parts may fail to decode
                         pass
         else:
             try:
@@ -250,8 +240,7 @@ def get_iocs_from_file_or_content(input_data, is_file_path=True, quiet: bool = F
                 try:
                     with open(temp_filename, "wb") as f:
                         f.write(part.get_payload(decode=True) or b"")
-                    if not quiet:
-                        print(f"[*] Analyzing attachment: {filename}", file=sys.stderr)
+                    print(f"[*] Analyzing attachment: {filename}", file=sys.stderr)
 
                     # Hashes
                     with open(temp_filename, "rb") as f:
@@ -265,8 +254,9 @@ def get_iocs_from_file_or_content(input_data, is_file_path=True, quiet: bool = F
                     # Extract content if likely text-like
                     attachment_content = ""
                     likely_binary = any(sig in (mime_type or "") for sig in ["application/x-msdownload"])
+                    # Keep octet-stream cautious: many legit docs appear as octet-stream, so try to parse anyway via parse_file_content
                     if not likely_binary:
-                        attachment_content = parse_file_content(temp_filename, quiet=quiet)
+                        attachment_content = parse_file_content(temp_filename)
 
                     attachment_iocs = find_iocs(attachment_content)
 
@@ -285,7 +275,7 @@ def get_iocs_from_file_or_content(input_data, is_file_path=True, quiet: bool = F
     else:
         # Non-email path or raw content flow
         if is_file_path and os.path.exists(input_data):
-            text_content = parse_file_content(input_data, quiet=quiet)
+            text_content = parse_file_content(input_data)
         else:
             text_content = input_data if not is_file_path else ""
         if text_content:
@@ -303,8 +293,8 @@ def _plural(n, word):
     return f"{n} {word}{'' if n == 1 else 's'}"
 
 
-def _section(title, colorer):
-    print(colorer(title, "cyan"))
+def _section(title):
+    print(colored(title, "cyan"))
 
 
 def _print_list(label, items, indent="  "):
@@ -317,9 +307,9 @@ def _print_list(label, items, indent="  "):
         print(f"{indent}  - {it}")
 
 
-def print_iocs_pretty(attributed_iocs: Dict[str, Any], meta: Optional[Dict[str, Any]], colorer):
+def print_iocs_pretty(attributed_iocs: Dict[str, Any], meta: Dict[str, Any] | None = None):
     # Banner
-    print(colorer("[*] ioc_analyzer v1.0", "cyan"))
+    print(colored("[*] ioc_analyzer v1.0", "cyan"))
     if meta:
         subj = meta.get("subject") or "-"
         frm = meta.get("from") or "-"
@@ -336,7 +326,7 @@ def print_iocs_pretty(attributed_iocs: Dict[str, Any], meta: Optional[Dict[str, 
     h_ips = headers.get("ips", []) or []
     h_urls = headers.get("urls", []) or []
     h_domains = headers.get("domains", []) or []
-    _section("[*] Header IOC summary", colorer)
+    _section("[*] Header IOC summary")
     print(f"  {_plural(len(h_ips), 'IP')}, {_plural(len(h_urls), 'URL')}, {_plural(len(h_domains), 'domain')}")
     _print_list("IPs", h_ips)
     _print_list("URLs", h_urls)
@@ -348,7 +338,7 @@ def print_iocs_pretty(attributed_iocs: Dict[str, Any], meta: Optional[Dict[str, 
     b_ips = body.get("ips", []) or []
     b_urls = body.get("urls", []) or []
     b_domains = body.get("domains", []) or []
-    _section("[*] Body IOC summary", colorer)
+    _section("[*] Body IOC summary")
     print(f"  {_plural(len(b_ips), 'IP')}, {_plural(len(b_urls), 'URL')}, {_plural(len(b_domains), 'domain')}")
     _print_list("IPs", b_ips)
     _print_list("URLs", b_urls)
@@ -357,7 +347,7 @@ def print_iocs_pretty(attributed_iocs: Dict[str, Any], meta: Optional[Dict[str, 
 
     # Attachments
     atts = attributed_iocs.get("attachments", {}) or {}
-    _section("[*] Attachments", colorer)
+    _section("[*] Attachments")
     if not atts:
         print("  None")
         return
@@ -397,61 +387,30 @@ def main():
     ap.add_argument("--raw", action="store_true", help="Treat input as raw text instead of a file path")
     ap.add_argument("--json-out", help="Write the IOC result to a JSON file")
     ap.add_argument("--print-json", action="store_true", help="Also print the JSON to console (in addition to pretty output)")
-    ap.add_argument("--format", choices=["pretty", "json", "csv"], default="pretty", help="Output format (default: pretty)")
-    ap.add_argument("--quiet", "-q", action="store_true", help="Suppress stderr diagnostics")
-    ap.add_argument("--no-color", action="store_true", help="Disable colored terminal output")
     args = ap.parse_args()
 
-    colorer = make_colorer(disable=args.no_color)
-
     if args.raw:
-        result, meta = get_iocs_from_file_or_content(args.input, is_file_path=False, quiet=args.quiet)
+        result, meta = get_iocs_from_file_or_content(args.input, is_file_path=False)
     else:
         if not os.path.exists(args.input):
             print(f"[!] File not found: {args.input}", file=sys.stderr)
             sys.exit(1)
-        result, meta = get_iocs_from_file_or_content(args.input, is_file_path=True, quiet=args.quiet)
+        result, meta = get_iocs_from_file_or_content(args.input, is_file_path=True)
 
-    # Display format
-    if args.format == "pretty":
-        print_iocs_pretty(result, meta, colorer)
-    elif args.format == "json":
+    # Pretty output
+    print_iocs_pretty(result, meta)
+
+    # Optional JSON
+    if args.print_json:
         print(json.dumps(result, indent=2, ensure_ascii=False))
-    elif args.format == "csv":
-        import csv
-        rows = []
-        # headers
-        for x in result.get("headers", {}).get("ips", []): rows.append(("headers", "ip", x))
-        for x in result.get("headers", {}).get("urls", []): rows.append(("headers", "url", x))
-        for x in result.get("headers", {}).get("domains", []): rows.append(("headers", "domain", x))
-        # body
-        for x in result.get("body", {}).get("ips", []): rows.append(("body", "ip", x))
-        for x in result.get("body", {}).get("urls", []): rows.append(("body", "url", x))
-        for x in result.get("body", {}).get("domains", []): rows.append(("body", "domain", x))
-        # attachments
-        for fname, info in (result.get("attachments") or {}).items():
-            i = (info.get("iocs") or {})
-            for x in i.get("ips", []): rows.append((f"attachment:{fname}", "ip", x))
-            for x in i.get("urls", []): rows.append((f"attachment:{fname}", "url", x))
-            for x in i.get("domains", []): rows.append((f"attachment:{fname}", "domain", x))
-        w = csv.writer(sys.stdout)
-        w.writerow(["section", "type", "indicator"])
-        w.writerows(rows)
-
-    # Optional JSON file output regardless of display format
     if args.json_out:
         try:
             with open(args.json_out, "w", encoding="utf-8") as f:
                 json.dump(result, f, ensure_ascii=False, indent=2)
-            if not args.quiet:
-                print(colorer(f"[*] Wrote JSON to {args.json_out}", "green"), file=sys.stderr)
+            print(colored(f"[*] Wrote JSON to {args.json_out}", "green"))
         except Exception as e:
             print(f"[!] Failed to write JSON: {e}", file=sys.stderr)
             sys.exit(2)
-
-    # Optional: also print JSON to console in addition to chosen format
-    if args.print_json and args.format != "json":
-        print(json.dumps(result, indent=2, ensure_ascii=False))
 
     sys.exit(0)
 
