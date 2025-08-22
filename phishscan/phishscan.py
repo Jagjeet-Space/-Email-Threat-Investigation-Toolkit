@@ -174,8 +174,8 @@ def run_attachment_analysis(file_path, args):
 def run_full_analysis(file_path, args):
     """Runs all analysis sequentially, respecting --format for IOCs and headers."""
     fmt = getattr(args, "format", "json")
-    run_ioc_extraction(file_path, fmt=fmt)
     run_header_analysis(file_path, fmt=fmt)
+    run_ioc_extraction(file_path, fmt=fmt)
     run_attachment_analysis(file_path, args)
     print("\n" + "=" * 70)
     print(colored("Analysis complete.", "green", attrs=["bold"]))

@@ -320,16 +320,16 @@ def _print_list(label, items, indent="  "):
 def print_iocs_pretty(attributed_iocs: Dict[str, Any], meta: Optional[Dict[str, Any]], colorer):
     # Banner
     print(colorer("[*] ioc_analyzer v1.0", "cyan"))
-    if meta:
-        subj = meta.get("subject") or "-"
-        frm = meta.get("from") or "-"
-        to = meta.get("to") or "-"
-        dt = meta.get("date") or "-"
-        print(f"Subject: {subj}")
-        print(f"From:    {frm}")
-        print(f"To:      {to}")
-        print(f"Date:    {dt}")
-        print("")
+   # if meta:
+   #     subj = meta.get("subject") or "-"
+   #     frm = meta.get("from") or "-"
+   #     to = meta.get("to") or "-"
+   #     dt = meta.get("date") or "-"
+   #     print(f"Subject: {subj}")
+   #     print(f"From:    {frm}")
+   #     print(f"To:      {to}")
+   #     print(f"Date:    {dt}")
+   #     print("")
 
     # Headers IOCs
     headers = attributed_iocs.get("headers", {}) or {}
