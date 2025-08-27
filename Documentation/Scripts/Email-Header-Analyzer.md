@@ -21,7 +21,7 @@ from email.utils import getaddresses, parsedate_to_datetime
 - *json* for structured output
 - *typing* improves code clarity with type hints
 
-```
+```python
 try:
     import dns.resolver
 except Exception:
@@ -31,7 +31,7 @@ except Exception:
 - *dnspython* for DMARC DNS lookups will be performed
 - If missing, script still works but skips DNS checks.
 
-```
+```python
 try:
     from termcolor import colored as _colored
 except Exception:
@@ -44,23 +44,23 @@ except Exception:
 ## Phase 2 Utility Functions
 
 ### Header decoding and parsing helpers
-```
+```python
 def _decode_header_value(h): ...
 ```
 - Converts encoded MIME headers like UTF-8 into readable text
 
-```
+```python
 def _parse_eml_bytes(path): ...
 ```
 - Reads the email file as bytes
 - Parses it itno an email.message.EmaiMessage object # Not understood
 
-```
+```python
 def _normalize_domain(d): ...
 ```
 - Cleans up a domain strings (removes spaces <>, trailing dots, lowercase.
 
-```
+```python
 def _extract_from_domain(msg): ...
 ```
 - Pulls the sender domain from the *From* header
@@ -69,7 +69,7 @@ def _extract_from_domain(msg): ...
 
 ### Key header collection
 
-```
+```python
 def _gather_headers(msg): ...
 ```
 - Collects Subject, From, To, Date, Return-Path, Received-SPF, Auuthentication-Results into a dictionary.
@@ -77,30 +77,30 @@ def _gather_headers(msg): ...
 
 Authentication Results helpers
 
-```
+```python
 def _pick_trusted_ar(msg): ...
 ```
 - Returns the first Authentication-Results header 
 - Ensures only a single line is processed
 
-```
+```python
 def _parse_ar_status(ar_line, mech): ...
 ```
 - Extracts pass, fail, none etc for SPF, DKIM, DMARC from AR line
 
-```
+```python
 def _parse_ar_param(ar_line, key): ...
 ```
 - Extracts specific parameters like smtp.mailform or header.d= used for allignment checks # didnt understand
 
 ### DNS + signature checks 
 
-```
+```python
 def _has_dkim_signature(msg): ...
 ```
 - Returns True if a DKIM-Signature header is present
 
-```
+```python
   def _dmarc_dns(domain, timeout): ...
 ```
 - If DNS is available, queries _dmarc.<domain> TXT records
@@ -109,20 +109,20 @@ def _has_dkim_signature(msg): ...
 
 ### Output formatting helpers
 
-```
+```python
 def _color_status(name, val): ...
 ```
 - Green if PASS, RED if FAIL, yellow if NONE/NEUTRAL
 - Adds CLI colors to make results visually clear
 
-```
+```python
 def _fmt_kv(k, v): ...
 ```
 - Prints headers consistently in key: value format  # didnt understadn that
 
 ## Phase 3 Main Analysis Function
 
-```
+```python
 def analyze_headers(file_path, quiet=True, dns_timeout=5.0) -> Dict[str, Any]:
 ```
 
@@ -137,14 +137,14 @@ def analyze_headers(file_path, quiet=True, dns_timeout=5.0) -> Dict[str, Any]:
 
   1. Parse email & collect basic headers
 
-``` 
+```python
 raw, msg = _parse_eml_bytes(file_path)
 key_headers = _gather_headers(msg)
 subject = _decode_header_value(msg.get("Subject"))
 ```
   2. Get Authentication-Reuslt line
 
-```
+```python
 ar_used = _pick_trusted_ar(msg)
 ```
   3. SPF cehck
@@ -164,7 +164,7 @@ ar_used = _pick_trusted_ar(msg)
         - DKIM's header.d domain
      - Flags whether SPF/DKIM are aligned (`True` or `False`
   7. Verdict comoutation
-```
+```python
 if dmarc_status == "pass":
     verdict = "authenticated"
 elif neither SPF nor DKIM pass:
@@ -175,7 +175,7 @@ else:
   - Adds issue list: eg ["SPF", "DKIM", "DMARC"]
   - Adds human-readable reasons
   8. Build final result dictionary
-    ```
+    ```python
     result = {
     "verdict": ...,
     "issues": ...,
@@ -188,7 +188,7 @@ else:
   
 ## Phase 4 Pretty Printing 
 
-```
+```python
 def print_headers_pretty(result):
 ```
 - Takes analyze_headers() output and print it in human-readable format
