@@ -183,7 +183,7 @@ else:
     "authentication": {...},
     "alignment": {...},
     ...
-}
+    }
     ```
   
 ## Phase 4 Pretty Printing 
