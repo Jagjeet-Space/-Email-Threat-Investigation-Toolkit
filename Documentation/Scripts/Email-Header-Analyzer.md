@@ -1,6 +1,6 @@
 Email Header Analyzer is one of three scripts that helps in email header analysis. It extract key headers like SPF, DKIM and DMARC authnetication results, checks domain allignment and produces a verdict on whether the email is authenticated or un-authenticated. Also it can analyze normal headers in an email body like sender, reciver etc.
 
-Down below, we will analyze [phishscan/.utils](Email_Header_Analyzer.py) key secripts modules and function that will tell us, what each of them do.
+Down below, we will analyze [phishscan/utils](analyze_headers.py) key secripts modules and function that will tell us, what each of them do.
 
 
 ## Phase 1 Imports andd Optional Dependencies  
