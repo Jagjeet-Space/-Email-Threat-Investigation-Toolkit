@@ -6,7 +6,7 @@ Down below is a full script, we will analyze key secripts modules and function t
 
 
 ## Phase 1 Imports andd Optional Dependencies  
-```
+```python
 import re
 import json
 from typing import Dict, Any, Optional, Tuple, List
