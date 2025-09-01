@@ -1,4 +1,4 @@
-This script is a complete IOC (Indicator of Compromise) standalone extraction utility. It's designed to analyze .eml or .msg email files, as well as text, PDF, Word, or Excel files, extracting IPs, URLs, and domains from headers, body content, and attachments. It also supports pretty CLI output, CSV/JSON exports, and attachment metadat (hashes + mimetype). 
+This script is a complete IOC (Indicator of Compromise) standalone extraction utility. It's designed to analyze .eml or .msg email files, as well as text, PDF, Word, or Excel files, extracting IPs, URLs, and domains from headers, body content, and attachments. It also supports pretty CLI output, CSV/JSON exports, and attachment metadat (hashes + mimetype).Here is link to [ioc_extarctor.py](../../phishscan/utils/ioc_extractor.py) script.
 
 With integrated to phishscan.py its output all IOCs relaetd to that .eml file.
 
